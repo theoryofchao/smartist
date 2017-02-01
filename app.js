@@ -1,12 +1,20 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var bodyParser = require('body-parser');
+const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const bodyParser = require('body-parser');
+const knexSettings = require('./settings'); //settings.json
+const knex = require('knex')({
+  host     : knexSettings.hostname,
+  user     : knexSettings.user,
+  password : knexSettings.password,
+  database : knexSettings.database
+});
 
 /*Routing*/
 var index = require('./routes/index');
 var users = require('./routes/users');
+let todo  = require('./routes/todo');
 
 var app = express();
 
@@ -23,6 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
+app.use('/todo', todo);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
