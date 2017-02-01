@@ -1,11 +1,53 @@
 <!DOCTYPE html>
-<html>
-  <head>
+<html lang="en">
+<head>
     <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- use partials
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <meta charset="utf-8">
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+</head>
+
+<body>
+<header>
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
-  </body>
+    <nav class="userNav">
+        <div class="loginBlock">
+            <form id="loginForm" action="/tweets/login" method="post">
+                <input name="loginID" type="text">
+                <input type="submit" value="Login">
+            </form>
+        </div>
+        <div class="logoutBlock">
+            <span class="loggerUserName"></span>
+            <form id="logoutForm" action="/tweets/logout" method="post">
+                <input type="submit" class="logoutButton" value="Logout">
+            </form>
+        </div>
+    </nav>
+</header>
+<main class="formcontainer">
+    <h2>ToDo!</h2>
+    <form id="formTodo">
+        <input type="text">
+        <input type="submit">Do it!
+    </form>
+</main>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+</body>
 </html>
