@@ -23,31 +23,38 @@
     <p>Welcome to <%= title %></p>
     <nav class="userNav">
         <div class="loginBlock">
-            <form id="loginForm" action="/tweets/login" method="post">
+            <form id="loginForm" action="/login" method="post">
                 <input name="loginID" type="text">
                 <input type="submit" value="Login">
             </form>
         </div>
         <div class="logoutBlock">
             <span class="loggerUserName"></span>
-            <form id="logoutForm" action="/tweets/logout" method="post">
+            <form id="logoutForm" action="/logout" method="post">
                 <input type="submit" class="logoutButton" value="Logout">
             </form>
         </div>
     </nav>
 </header>
-<main class="formcontainer">
+<main class="formContainer">
     <h2>ToDo!</h2>
-    <form id="formTodo">
+    <form id="formTodo" method="post" action="/todo">
         <input type="text">
         <input type="submit">Do it!
     </form>
+<section id="todoContainer"></section>
+    <article>
+        <span>NAME </span><span>TYPE</span>
+    </article>
+
 </main>
+
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
+<script src="js/index_client.js"></script>
 </body>
 </html>
