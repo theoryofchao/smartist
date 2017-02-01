@@ -1,0 +1,7 @@
+{
+ "user" : "labber",
+ "password": "labber",
+ "database": "smartist",
+ "hostname": "localhost",
+ "ssl": "true"
+}
