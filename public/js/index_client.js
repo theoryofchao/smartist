@@ -2,6 +2,17 @@ $(document).ready(function () {
 
   var suggestedCategory = "";
 
+  //autocomplete
+  $.get(("/todo"), function (data) {
+    console.log(data);
+    var availableTags = data.map(function (item){
+      return item.name;
+    });
+    console.log(availableTags);
+    $( "#todoText" ).autocomplete({
+      source: availableTags
+    });
+  });
 
   //functions for getting and rendering elements
   var getElements = function (render, callback) {
