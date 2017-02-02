@@ -1,22 +1,44 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const knex = require('../knex');
 
 /* /todo/ */
 
-var database = {};
 
-/* GET users listing. */
+/* GET users todos. */
 router.get('/', (req, res, next) => {
-  res.json(database);
+  knex.select()
+      .from(`todo`)
+      .timeout(1000)
+      .then( (result) => {
+        console.log(result);
+        return res.json(result);
+      })
+      .then( (error) => {
+        console.error(error);
+        return res.end(`Cannot get list items`);
+      });
 });
 
 /* POST user todo. */
 router.post('/', (req, res, next) => {
   let name = req.body.name;
   let category = req.body.category;
-  let item = {name: name, category: category};
-  database.name = item;
-  res.send("yay");
+  let date = new Date(Date.now());
+
+  knex('todo').insert({ name: name,
+                        description: name,
+                        category: category,
+                        status: 1,
+                        user_id: 1, 
+                        created_at: date })
+              .timeout(1000)
+              .then( (result) => {
+                return res.end(`Todo Added`);
+              })
+              .then( (error) => {
+                return res.end(`Todo Failed`);
+              });
 });
 
 module.exports = router;
