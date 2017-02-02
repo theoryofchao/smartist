@@ -27,8 +27,6 @@ $(document).ready(function () {
 
   $('#todoButton').on('click', function (){
      getCategory($('#todoText').val(),logCall);
-
-
   });
 
 var logCall = function(item, category){
@@ -41,7 +39,7 @@ var logCall = function(item, category){
 
 
 var getCategory = function (item,callback) {
-  var searchString = `https://www.googleapis.com/customsearch/v1?q=${item}&cx=009727429418526168478%3Agmz1zju4st8&num=10&key=AIzaSyBaDb1wlcW9WXDPpRzPanZr58lhtl1UnIo`;
+  var searchString = `https://www.googleapis.com/customsearch/v1?q=${item}&cx=009727429418526168478%3Agmz1zju4st8&num=10&key=`;
   $.get((searchString), function (data, result) {
     let category = "";
     for (dataObj in data.items) {
