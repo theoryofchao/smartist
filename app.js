@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieSession({
   name: 'session',
-  secret: settings.secret,
+  secret: '5m4rt15t',   //TODO: hardcoded will be moved to settings.json later
   maxAge: 5 * 60 * 1000
 }));
 
