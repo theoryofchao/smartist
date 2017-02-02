@@ -35,19 +35,20 @@ $(document).ready(function () {
   $('#todoButton').on('click', function () {
     getElements(false, getCategory);
     $(this).toggle();
-    $('#todoText').attr('readonly' , true);
+    $('#todoText').attr('readonly', true);
     $('#loadingSpinner').toggle();
   });
 
 
   $('#categoryButtons').on('click', 'button', function () {
+    console.log(suggestedCategory);
     $('#todoText').attr('readonly', false);
     var category = this.id.replace('CategoryButton', "").replace('#', "");
     if (category === 'default') {
     }
     $.post("/todo", "category=" + category + "&name=" + $('#todoText').val()).complete(
       function () {
-        getElements();
+        getElements(true);
       })
     $('#categoryButtons').toggle();
     $('#todoButton').toggle();
@@ -55,15 +56,22 @@ $(document).ready(function () {
   });
 
 
+  var toggleSpinnerButtons = function (){
+    $('#categoryButtons').toggle();
+    $('#loadingSpinner').toggle();
+  };
+
 
   var getCategory = function (item) {
-    item.forEach(function (dbItem) {
-      if (dbItem.name === $('#todoText').val()) {
-        console.log("matched")
-        return ("matched");
+    for (dbItem in item) {
+      console.log(dbItem);
+      if (item[dbItem].name === $('#todoText').val()) {
+        toggleSpinnerButtons();
+        suggestedCategory = item[dbItem].category;
+        return
       }
-    });
-    var searchString = `https://www.googleapis.com/customsearch/v1?q=${item}&cx=009727429418526168478%3Agmz1zju4st8&num=10&key=AIzaSyCaOxUoXD5hn9qge6ZAV-uzI2bWLry5Amc`;
+    }
+     var searchString = `https://www.googleapis.com/customsearch/v1?q=${item}&cx=009727429418526168478%3Agmz1zju4st8&num=10&key=AIzaSyCaOxUoXD5hn9qge6ZAV-uzI2bWLry5Amc`;
     $.get((searchString), function (data) {
       let category = "";
       for (dataObj in data.items) {
@@ -76,13 +84,10 @@ $(document).ready(function () {
       if (category === "") {
         category = "product"
       }
-      ;
-      $('#categoryButtons').toggle();
-      $('#loadingSpinner').toggle();
       console.log(category, "google")
-      return category;
+      toggleSpinnerButtons();
+     suggestedCategory = category;
     });
-
 
     var snippetScanner = function (snippet) {
       var dictionary =
@@ -99,7 +104,7 @@ $(document).ready(function () {
       var category = "";
       for (value in dictionary) {
         if (snippet.indexOf(dictionary[value]) !== -1) {
-          category = dictionary[value];
+          category = value;
           break;
         }
       }
