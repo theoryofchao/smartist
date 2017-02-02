@@ -8,6 +8,7 @@
     "watch-css": "./node_modules/.bin/node-sass -w ./public/stylesheets/scss/ -o ./public/stylesheets/"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.0",
     "body-parser": "~1.15.2",
     "cookie-session": "^2.0.0-alpha.2",
     "debug": "~2.2.0",
