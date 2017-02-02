@@ -4,12 +4,6 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 const knexSettings = require('./settings'); //settings.json
-/*const knex = require('knex')({
-  host     : knexSettings.hostname,
-  user     : knexSettings.user,
-  password : knexSettings.password,
-  database : knexSettings.database
-});*/
 
 /*Routing*/
 var index = require('./routes/index');
