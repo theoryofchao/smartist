@@ -1,17 +1,9 @@
 $(document).ready(function () {
 
-  //Test Data
-  var testElements = [
-    {name: 'fun', category: 'Movie'},
-    {name: 'funner', category: 'Book'},
-    {name: 'not fun', category: 'Product'}
-  ]
-
-
   //functions for getting and rendering elements
   var getElements = function (elements) {
     $.get(("/todo"), function (data, status) {
-      console.log(data);
+      //console.log(data);
       renderElements(data);
     });
   };
@@ -21,7 +13,7 @@ $(document).ready(function () {
     newArticle[0].innerHTML = `
     <article>
         <span>${element.name}</span> <span>${element.category}</span>
-    </article>`
+    </article>`;
     return newArticle[0];
   };
 
@@ -33,11 +25,22 @@ $(document).ready(function () {
     }
   };
 
-  $('#todoButton').on('click', function () {
-    getCategory($('#todoText').val());
+  $('#todoButton').on('click', function (){
+     getCategory($('#todoText').val(),logCall);
+
+
   });
 
-var getCategory = function (item) {
+var logCall = function(item, category){
+  console.log(item, category);
+  $.post("/todo", "category="+category + "&name=" + item).complete(
+    function () {
+      getElements();
+    })
+  }
+
+
+var getCategory = function (item,callback) {
   var searchString = `https://www.googleapis.com/customsearch/v1?q=${item}&cx=009727429418526168478%3Agmz1zju4st8&num=10&key=AIzaSyBaDb1wlcW9WXDPpRzPanZr58lhtl1UnIo`;
   $.get((searchString), function (data, result) {
     let category = "";
@@ -49,7 +52,7 @@ var getCategory = function (item) {
       }
     }
     if (category === "") {category = "product"};
-    console.log(category, "end")
+    callback(item, category);
   });
 
 
@@ -57,6 +60,7 @@ var getCategory = function (item) {
     var dictionary =
       {
         restaurant: "restaurant",
+        restaurant: "pizza",
         movie: "movie",
         film: "movie",
         book: "book",
@@ -76,5 +80,5 @@ var getCategory = function (item) {
 }
 
   //initial page load
-  getElements(testElements);
+  getElements();
 });
