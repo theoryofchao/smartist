@@ -61,10 +61,13 @@ router.post('/registration', function(request, response, next) {
                 .then( (result) => {
                   request.session.user_id = result[0].user_id;
                   request.session.email = result[0].email;  //TODO: make more secure later
-                  return response.status.json({'message' : `User Inserted`});
+                  response.status(200).json({'message' : `User Inserted`});
+                  return;
                 })
                 .catch( (error) => {
-                  return response.status(400).json({ 'message': `User already Exists`});
+                  console.error(error);
+                  response.status(400).json({ 'message': `User already Exists`});
+                  return;
                 });
 });
 
