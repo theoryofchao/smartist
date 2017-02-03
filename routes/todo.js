@@ -36,7 +36,7 @@ router.get('/temp/:search_term', (request, response) => {
 
 router.get('/temp', (request, response) => {
   console.log(request.params);
-  knex.select('*').from('searches').then((result) => {
+  knex.select('*').from('searches').limit(50).then((result) => {
     response.status(200).json(result);
   });
 });

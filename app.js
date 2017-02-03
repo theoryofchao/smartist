@@ -26,7 +26,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieSession({
   name: 'session',
   secret: '5m4rt15t',   //TODO: hardcoded will be moved to settings.json later
-  maxAge: 5 * 60 * 1000
+  maxAge: 5 * 60 * 1000,
+  httpOnly : false
 }));
 
 app.use('/', index);

@@ -1,5 +1,11 @@
 $(document).ready(function () {
 
+
+
+$('#login').on('click', function() {
+  for (var it in $.cookie()) $.removeCookie(it);
+});
+
   var suggestedCategory = "";
 
   //autocomplete

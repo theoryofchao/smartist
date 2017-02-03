@@ -20,26 +20,31 @@ router.post('/login', (request, response, next) => {
   //Checks if user is already logged in
   if(request.session.email) {
     response.end(`Already logged with email ${request.session.email}`);
+    return;
   }
-
+  console.log(request.body, request.body.password);
   //Else does bcrypt comparison
   let email = request.body.email;
   let password = request.body.password;
+  console.log(password);
   knex.select()
       .from(`users`)
       .where(`email`, email)
       .timeout(1000)
       .then( (result) => {
-        bcrypt.compare(password, result[0].password, (error, result) => {
+        console.log(password);
+        bcrypt.compare(password, result[0].password, (error, res) => {
           request.session.user_id = result[0].user_id;
           console.log(request.session.email);
           request.session.email = email;
           response.status(200).json({'message' : `Logged In`});
+          return;
         });
       })
       .catch( (error) => {
         console.error(error);
-        response.status.end({'message' : `Login Error`});
+        response.status(302).end({'message' : `Login Errres.redirect(302, 'http://localhost:8080/');or`});
+        return;
       });
 });
 
