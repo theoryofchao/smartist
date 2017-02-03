@@ -4,6 +4,15 @@ body {
 }
 
 a {
-  color: #00;
 
+
+}
+
+#categoryButtons{
+  display: none;
+}
+
+#loadingSpinner{
+  height: 50px;
+  display:none;
 }

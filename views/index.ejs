@@ -38,12 +38,21 @@
 </header>
 <main class="formContainer">
     <h2>ToDo!</h2>
+
+    <span class="ui-widget">
+        <label for="todoText"></label>
         <input type="text" name="name" id="todoText">
+    </span>
         <button id="todoButton">Test</button>
-<section id="todoContainer"></section>
+    <img id="loadingSpinner" src="images/loadingspinner.gif">
+    <div id="categoryButtons">
+        <button id='#bookCategoryButton'>Book</button><button id='#movieCategoryButton'>Movie</button><button id='#restuarantCategoryButton' >Restuarant</button><button id='#productCategoryButton'>Product</button><button id='#defaultCategoryButton'>???</button><button id='#cancelCategoryButton'>X</button>
+    </div>
     <article>
         <span>NAME </span><span>TYPE</span>
     </article>
+    <section id="todoContainer"></section>
+
 </main>
 
 
@@ -53,5 +62,9 @@
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
 <script src="js/index_client.js"></script>
+<link rel="stylesheet" href="jqueryui/jquery-ui.min.css">
+<script src="jqueryui/external/jquery/jquery.js"></script>
+<script src="jqueryui/jquery-ui.min.js"></script>
+
 </body>
 </html>
