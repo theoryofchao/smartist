@@ -20,6 +20,12 @@ let knexInsert = (table, json, returning) => {
                     .timeout(1000);
 };
 
+let knexExactUpdate = (table, where, json, returning) => {
+  return knex(table).where(where)
+                    .update(json)
+                    .returning(returning);
+};
+
 router.get('/temp/:search_term', (request, response) => {
   console.log(request.params);
   knex.select('*').from('searches').where('search_term' , 'like', `%${request.params.search_term}%`).then( (result) => {
@@ -81,12 +87,63 @@ router.get('/', (request, response, next) => {
       });
 });
 
+/* PUT delete todo (Soft delete) */
+router.put('/delete', (request, response, next) => {
+  let todo_id = request.body.todo_id;
+  knexExactUpdate(`todo`, {todo_id: todo_id}, {status: -1}, `*`)
+    .then( (result) => {
+      console.log(result);
+      return response.status(200).json({'message' : `Successful Delete`});
+    })
+    .catch( (error) => {
+      console.error(error);
+      return response.status(400).json({'message' : `Delete Failed`});
+    });
+});
+
+/* POST edit user todo */
+//TODO: does not bind to a user
+//TODO: if a todo_id is specified but that todo does not exist, it will still insert the search but edit nothing
+router.post('/edit', (request, response, next) => {
+  let search_term = request.body.search_term;
+  let category = request.body.category;
+  let todo_id = request.body.todo_id;
+  let date = new Date(Date.now());
+
+  //Find if the search_id already exists
+  knexExactSearch(`*`, `searches`, { search_term: search_term }, 1)
+    .then( (searchResult) => {
+      //If does not exist, create it
+      if(searchResult.length == 0) {
+        console.log('Created');
+        return knexInsert(`searches`, { search_term: search_term, category: category , url : '', created_at : date } , `*`);
+      }
+      //Return existing search
+      else {
+        console.log('Existing');
+        return searchResult;
+      }
+    })
+    .then( (newReference) => {
+      //update the search_id for the todo to the new one
+      //console.log(newReference[0].search_id);
+      return knexExactUpdate(`todo`, { todo_id: todo_id }, { search_id : newReference[0].search_id, updated_at : date }, `*`);
+    })
+    .then( (changed) => {
+      console.log(changed);
+      response.status(200).json( {message : "Updated Todo"} );
+    })
+    .catch( (error) => {
+      console.error(error);
+      response.status(400).json( {message : "Bad Todo Update"} );      
+    });
+});
+
 /* POST user todo. */
 router.post('/', (request, response, next) => {
   let search_term = request.body.search_term;
   let category = request.body.category;
-  let date = new Date(Date.now());
-
+  let date = request.body.date ? request.body.date : new Date(Date.now());
   knexExactSearch(`*`, `searches`, { search_term: search_term }, 1)
   .then( (searchResult) => {
     if(searchResult.length != 0) {
