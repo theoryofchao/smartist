@@ -8,8 +8,10 @@ $('#login').on('click', function() {
 
   var suggestedCategory = "";
 
+
+
   //autocomplete
-  $.get(("/todo"), function (data) {
+  $.get(("/todo/temp"), function (data) {
     //console.log(data);
     var availableTags = data.map(function (item){
       return item.search_term;
@@ -30,6 +32,12 @@ $('#login').on('click', function() {
       }
     });
   };
+
+  var getUserElements = function(){
+    $.get("/todo/" , function(data,status){
+      renderElements(data);
+    });
+  }
 
 
   var createElement = function (element) {
@@ -99,9 +107,9 @@ var createButtons = function(id,category){
     var category = this.id.replace('CategoryButton', "").replace('#', "");
     if (category === 'default') {
     }
-    $.post("/todo", "category=" + category + "&name=" + $('#todoText').val()).complete(
+    $.post("/todo", "category=" + category + "&search_term=" + $('#todoText').val()).complete(
       function () {
-        getElements(true);
+        getUserElements();
       })
     $('#categoryButtons').toggle();
     $('#todoButton').toggle();
@@ -124,8 +132,7 @@ var createButtons = function(id,category){
         return
       }
     }
-    debugger;
-     var searchString = `https://www.googleapis.com/customsearch/v1?q=${$('#todoText').val()}&cx=009727429418526168478%3Agmz1zju4st8&num=10&key=AIzaSyCaOxUoXD5hn9qge6ZAV-uzI2bWLry5Amc`;
+        var searchString = `https://www.googleapis.com/customsearch/v1?q=${$('#todoText').val()}&cx=009727429418526168478%3Agmz1zju4st8&num=10&key=AIzaSyCaOxUoXD5hn9qge6ZAV-uzI2bWLry5Amc`;
     $.get((searchString), function (data) {
       let category = "";
       for (dataObj in data.items) {
@@ -167,5 +174,6 @@ var createButtons = function(id,category){
   };
 
   //initial page load
-  getElements(true);
+  //getElements(true);
+  getUserElements();
 });
