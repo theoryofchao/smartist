@@ -20,6 +20,29 @@ let knexInsert = (table, json, returning) => {
                     .timeout(1000);
 };
 
+/* GET todos by LIKE search_term */
+router.get('/search_term/:search_term', (request, response, next) => {
+  knex.select(`*`)
+      .from(`todo`)
+      .innerJoin(`searches`, `todo.search_id`, `searches.search_id`)
+      .where(`searches.search_term`, `like`,  `%${request.params.search_term}%`)
+      .timeout(1000)
+      .then( (result) => {
+        response.status(200).json(result);
+      });
+});
+
+/* GET todos by ID */
+router.get('/id/:todo_id', (request, response, next) => {
+  knexExactSearch(`*`, `todo`, {todo_id : request.params.todo_id}, 1)
+    .then( (result) => {
+      response.status(200).json(result[0]);
+    })
+    .catch( (error) => {
+      console.error(error);
+    });
+});
+
 /* GET users todos. */
 router.get('/', (request, response, next) => {
   if(!request.session) {
@@ -48,60 +71,24 @@ router.post('/', (request, response, next) => {
   let date = new Date(Date.now());
 
   knexExactSearch(`*`, `searches`, { search_term: search_term }, 1)
-    .then( (searchResult) => {
-      if(searchResult.length != 0) {
-        console.log(searchResult); //TODO update count
-      }
-      else {
-        return knexInsert(`searches`, { search_term : search_term, category : category, url : '', created_at : date } , `*`);
-      }
-    })
-    .then( (searchInsertionResult) => {
-      console.log(searchInsertionResult);
-      return knexInsert(`todo`, { search_id : searchInsertionResult[0].search_id, status : 1, user_id : 1, created_at : date, description: '' }, `*`);  //TODO: change to coookie session once things stabilized
-    })
-    .then( (todoInsertionResult) => {
-      console.log(todoInsertionResult);
-      response.status(200).json({message : "Search and Todo Insertion Completed"});
-    })
-    .catch( (error) => {
-      console.error(error);
-    })
-  });
-  
-  //console.log(result);
-
-
-  /*knex('searches').insert( {search_term : search_term,
-                            category    : category,
-                            url         : '' ,
-                            created_at  : date })
-                  .returning('*')
-                  .timeout(1000)
-                  .then((result) => {
-                    response.send('yay');
-                    return;
-                  })
-                  .catch( (error) => {
-                    console.error(error);
-                    response.status(400).send('fuck you');
-                  });*/
-  
-
-
-
-  /*knex('todo').insert({ name: name,
-                        description: name,
-                        category: category,
-                        status: 1,
-                        user_id: 1, 
-                        created_at: date })
-              .timeout(1000)
-              .then( (result) => {
-                return response.end(`Todo Added`);
-              })
-              .catch( (error) => {
-                return response.status(400).json(`Todo Failed`);
-              });*/
+  .then( (searchResult) => {
+    if(searchResult.length != 0) {
+      return knex(`searches`).where({ search_term: search_term, category: category}).increment(`counts`, 1).returning(`*`);
+    } else {
+      return knexInsert(`searches`, { search_term : search_term, category : category, url : '', created_at : date } , `*`);
+    }
+  })
+  .then( (searchInsertionResult) => {
+    console.log(searchInsertionResult);
+    return knexInsert(`todo`, { search_id : searchInsertionResult[0].search_id, status : 1, user_id : 1, created_at : date, description: '' }, `*`);  //TODO: change to session for user_id
+  })
+  .then( (todoInsertionResult) => {
+    console.log(todoInsertionResult);
+    response.status(200).json({message : "Search and Todo Insertion Completed"});
+  })
+  .catch( (error) => {
+    console.error(error);
+  })
+});
 
 module.exports = router;
