@@ -23,15 +23,15 @@
     <p>Welcome to <%= title %></p>
     <nav class="userNav">
         <div class="loginBlock">
-            <form id="loginForm" action="/login" method="post">
-                <input name="loginID" type="text">
+            <form id="loginForm" action="/users/login" method="POST">
+                <input name="email" type="text">
+                <input name="password" type="text">
                 <input type="submit" value="Login">
             </form>
         </div>
         <div class="logoutBlock">
-            <span class="loggerUserName"></span>
-            <form id="logoutForm" action="/logout" method="post">
-                <input type="submit" class="logoutButton" value="Logout">
+            <form id="logoutForm" action="/users/logout" method="GET">
+                <input type="submit" value="Logout">
             </form>
         </div>
     </nav>
@@ -52,7 +52,6 @@
         <span>NAME </span><span>TYPE</span>
     </article>
     <section id="todoContainer"></section>
-
 </main>
 
 
