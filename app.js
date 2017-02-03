@@ -3,7 +3,8 @@ const path = require('path');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
-const knexSettings = require('./settings'); //settings.json
+const cookieSession = require('cookie-session');
+const settings = require('./settings');
 
 /*Routing*/
 var index = require('./routes/index');
@@ -22,6 +23,11 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cookieSession({
+  name: 'session',
+  secret: '5m4rt15t',   //TODO: hardcoded will be moved to settings.json later
+  maxAge: 5 * 60 * 1000
+}));
 
 app.use('/', index);
 app.use('/users', users);
