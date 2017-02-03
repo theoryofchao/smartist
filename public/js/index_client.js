@@ -25,14 +25,26 @@ $(document).ready(function () {
     });
   };
 
+
   var createElement = function (element) {
     var newArticle = $('<article class="todo"></article>');
     newArticle[0].innerHTML = `
-    <article>
-        <span>${element.name}</span> <span>${element.category}</span>
+    <article class="todoItem">
+        <span>${element.name}</span> <span>${element.category}</span>        
     </article>`;
     return newArticle[0];
   };
+
+var createButtons = function(id,category){
+  var newButtonDiv = $('<div class="itemButtons"></div>');
+  newButtonDiv[0].innerHTML =
+  `<button class="itemButton" data-category="book">Book</button>
+    <button class="itemButton" data-category="movie">Movie</button>
+    <button class="itemButton" data-category="restuarant">Restuarant</button>
+    <button class="itemButton" data-category="product">Product</button>    
+    <button class="itemButton" data-category="delete">X</button>`
+  return newButtonDiv;
+};
 
 
   var renderElements = function (elements) {
@@ -42,6 +54,30 @@ $(document).ready(function () {
       todoContainer.append(createElement(elements[element]));
     }
   };
+
+  //delegate to creates item buttons
+  $('#todoContainer').on('click', '.todoItem' ,function(ev){
+    ev.stopPropagation();
+    console.log($(this));
+    var children = $(this).children('.itemButtons');
+    console.log(children[0]);
+    if (children[0] === undefined) {
+      $(this).append(createButtons(1, 'stud'));
+    } else {
+      children.remove();
+    }
+  });
+
+
+  $('#todoContainer').on('click', '.itemButton' ,function(ev) {
+    ev.stopPropagation();
+    console.log($(this));
+
+    console.log($(this).data('category'));
+
+  });
+
+
 
   $('#todoButton').on('click', function () {
     getElements(false, getCategory);
@@ -121,7 +157,7 @@ $(document).ready(function () {
       }
       return category;
     }
-  }
+  };
 
   //initial page load
   getElements(true);
