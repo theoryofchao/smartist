@@ -62,9 +62,11 @@ router.post('/registration', function(request, response, next) {
                   request.session.user_id = result[0].user_id;
                   request.session.email = result[0].email;  //TODO: make more secure later
                   return response.status.json({'message' : `User Inserted`});
+
                 })
                 .catch( (error) => {
                   return response.status(400).json({ 'message': `User already Exists`});
+
                 });
 });
 

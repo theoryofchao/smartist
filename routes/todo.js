@@ -20,10 +20,27 @@ let knexInsert = (table, json, returning) => {
                     .timeout(1000);
 };
 
+router.get('/temp/:search_term', (request, response) => {
+  console.log(request.params);
+  knex.select('*').from('searches').where('search_term' , 'like', `%${request.params.search_term}%`).then( (result) => {
+    response.status(200).json(result);
+  });
+});
+
+
+router.get('/temp', (request, response) => {
+  console.log(request.params);
+  knex.select('*').from('searches').then((result) => {
+    response.status(200).json(result);
+  });
+});
+
+
+
 /* GET todos by LIKE search_term */
 router.get('/search_term/:search_term', (request, response, next) => {
   knex.select(`*`)
-      .from(`todo`)
+      .from(`searches`)
       .innerJoin(`searches`, `todo.search_id`, `searches.search_id`)
       .where(`searches.search_term`, `like`,  `%${request.params.search_term}%`)
       .timeout(1000)
@@ -52,7 +69,7 @@ router.get('/', (request, response, next) => {
   let search_term = request.body.search_term ? request.body.search_term : '';
 
   knex.select()
-      .from(`todo`)
+      .from(`searches`)
       .timeout(1000)
       .then( (result) => {
         console.log(result);
