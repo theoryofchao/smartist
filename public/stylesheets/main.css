@@ -1,0 +1,23 @@
+html {
+  box-sizing: border-box; }
+  html *, html *:before, html *:after {
+    box-sizing: inherit; }
+  html body {
+    margin: 0;
+    font-family: "Nunito", sans-serif; }
+  html main {
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: 140px;
+    transition: all 0.4s ease; }
+    html main .flex-item {
+      background-color: cornflowerblue;
+      width: 23%;
+      height: 200px;
+      padding: 20px;
+      margin: 1%;
+      border: 1px solid black;
+      border-radius: 5px; }
+  html main.sticky {
+    padding-top: 120px;
+    transition: all 0.4s ease; }

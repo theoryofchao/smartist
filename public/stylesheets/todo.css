@@ -1,0 +1,29 @@
+@charset "UTF-8";
+#todo {
+  margin-top: 75px;
+  padding-left: 20px;
+  position: fixed;
+  width: 100%;
+  text-align: left;
+  font-size: 24px;
+  line-height: 50px;
+  background: #efc47D;
+  color: #fff;
+  transition: all 0.4s ease; }
+  #todo form {
+    color: #335C7D; }
+    #todo form .search_term {
+      height: 30px; }
+    #todo form input[type=submit] {
+      border: 0px;
+      border-radius: 5px;
+      font: 15px;
+      background: ‎pink; }
+
+#todo.sticky {
+  margin-top: 50px;
+  line-height: 50px;
+  height: 52px;
+  background: #efc47D;
+  text-align: left;
+  transition: all 0.4s ease; }

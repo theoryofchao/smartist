@@ -1,0 +1,35 @@
+@import 'smartist';
+
+html {
+  box-sizing: border-box;
+  *, *:before, *:after {
+    box-sizing: inherit;
+  }
+
+  body {
+    margin: 0;
+    font-family: $fonts;
+  }
+
+  main {
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: 140px;
+    transition: all 0.4s ease;
+
+    .flex-item {
+      background-color: cornflowerblue;
+      width: 23%;
+      height: 200px;
+      padding: 20px;
+      margin: 1%;
+      border: 1px solid black;
+      border-radius: 5px;
+    }
+  }
+
+  main.sticky {
+    padding-top: 120px;
+    transition: all 0.4s ease;
+  }
+}
