@@ -1,14 +1,20 @@
 $(document).ready(function () {
 
+
+
+$('#login').on('click', function() {
+  for (var it in $.cookie()) $.removeCookie(it);
+});
+
   var suggestedCategory = "";
 
   //autocomplete
   $.get(("/todo"), function (data) {
-    console.log(data);
+    //console.log(data);
     var availableTags = data.map(function (item){
-      return item.name;
+      return item.search_term;
     });
-    console.log(availableTags);
+    //console.log(availableTags);
     $( "#todoText" ).autocomplete({
       source: availableTags
     });
@@ -16,7 +22,7 @@ $(document).ready(function () {
 
   //functions for getting and rendering elements
   var getElements = function (render, callback) {
-    return $.get(("/todo"), function (data, status) {
+    return $.get(("/todo/temp/"), function (data, status) {
       if (render) {
         renderElements(data);
       } else {
@@ -30,7 +36,7 @@ $(document).ready(function () {
     var newArticle = $('<article class="todo"></article>');
     newArticle[0].innerHTML = `
     <article class="todoItem">
-        <span>${element.name}</span> <span>${element.category}</span>        
+        <span>${element.search_term}</span> <span>${element.category}</span>        
     </article>`;
     return newArticle[0];
   };
@@ -58,7 +64,7 @@ var createButtons = function(id,category){
   //delegate to creates item buttons
   $('#todoContainer').on('click', '.todoItem' ,function(ev){
     ev.stopPropagation();
-    console.log($(this));
+    //console.log($(this));
     var children = $(this).children('.itemButtons');
     console.log(children[0]);
     if (children[0] === undefined) {
@@ -71,9 +77,9 @@ var createButtons = function(id,category){
 
   $('#todoContainer').on('click', '.itemButton' ,function(ev) {
     ev.stopPropagation();
-    console.log($(this));
+    //console.log($(this));
 
-    console.log($(this).data('category'));
+    //console.log($(this).data('category'));
 
   });
 
@@ -111,14 +117,15 @@ var createButtons = function(id,category){
 
   var getCategory = function (item) {
     for (dbItem in item) {
-      console.log(dbItem);
-      if (item[dbItem].name === $('#todoText').val()) {
+      //console.log(dbItem);
+      if (item[dbItem].search_term === $('#todoText').val()) {
         toggleSpinnerButtons();
         suggestedCategory = item[dbItem].category;
         return
       }
     }
-     var searchString = `https://www.googleapis.com/customsearch/v1?q=${item}&cx=009727429418526168478%3Agmz1zju4st8&num=10&key=AIzaSyCaOxUoXD5hn9qge6ZAV-uzI2bWLry5Amc`;
+    debugger;
+     var searchString = `https://www.googleapis.com/customsearch/v1?q=${$('#todoText').val()}&cx=009727429418526168478%3Agmz1zju4st8&num=10&key=AIzaSyCaOxUoXD5hn9qge6ZAV-uzI2bWLry5Amc`;
     $.get((searchString), function (data) {
       let category = "";
       for (dataObj in data.items) {
@@ -131,7 +138,7 @@ var createButtons = function(id,category){
       if (category === "") {
         category = "product"
       }
-      console.log(category, "google")
+      //console.log(category, "google")
       toggleSpinnerButtons();
      suggestedCategory = category;
     });
