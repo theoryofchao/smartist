@@ -91,9 +91,10 @@ router.get('/', (request, response, next) => {
 });
 
 /* PUT delete todo (Soft delete) */
-router.put('/delete', (request, response, next) => {
+router.post('/delete', (request, response, next) => {
   let todo_id = request.body.todo_id;
-  knexExactUpdate(`todo`, {todo_id: todo_id}, {status: -1}, `*`)
+  //knexExactUpdate(`todo`, {todo_id: todo_id}, {status: -1}, `*`)
+  knex('todo').where('todo_id' , todo_id).delete()
     .then( (result) => {
       console.log(result);
       return response.status(200).json({'message' : `Successful Delete`});

@@ -5,11 +5,11 @@ $(document).ready(function () {
   //autocomplete
   $.get(("/todo/temp"), function (data) {
     ////console.log(data);
-    var availableTags = data.map(function (item){
+    var availableTags = data.map(function (item) {
       return item.search_term;
     });
     ////console.log(availableTags);
-    $( "#todoText" ).autocomplete({
+    $("#todoText").autocomplete({
       source: availableTags
     });
   });
@@ -25,9 +25,10 @@ $(document).ready(function () {
     });
   };
 
-  var getUserElements = function(){
-    $.get("/todo/" , function(data,status){
+  var getUserElements = function () {
+    $.get("/todo/", function (data) {
       renderElements(data);
+      console.log(2);
     });
   }
 
@@ -42,8 +43,8 @@ $(document).ready(function () {
     return newArticle[0];
   };
 
-  var createButtons = function(id,search){
-    var newButtonDiv = $('<div class="itemButtons" data-search='+ search + '  data-parentId='+ id + '></div>');
+  var createButtons = function (id, search) {
+    var newButtonDiv = $('<div class="itemButtons" data-search=' + search + '  data-parentId=' + id + '></div>');
     newButtonDiv[0].innerHTML =
       `<button class="itemButton" data-category="book">Book</button>
     <button class="itemButton" data-category="movie">Movie</button>
@@ -63,7 +64,7 @@ $(document).ready(function () {
   };
 
   //delegate to creates item buttons
-  $('#todoContainer').on('click', '.todoItem' ,function(ev){
+  $('#todoContainer').on('click', '.todoItem', function (ev) {
     ev.stopPropagation();
     //console.log($(this), "ok");
     var children = $(this).children('.itemButtons');
@@ -76,15 +77,21 @@ $(document).ready(function () {
     }
   });
 
-
-  $('#todoContainer').on('click', '.itemButton' ,function(ev) {
+  //Update/delete Item buttons
+  $('#todoContainer').on('click', '.itemButton', function (ev) {
     ev.stopPropagation();
     var par = $(this).parent()[0];
-    //console.log('category=' + $(this).data('category') + '&todo_id=' + par.dataset.parentid + '&search_value='+ par.dataset.search);
-    $.post(('/todo/edit'),
-      'category=' + $(this).data('category') + '&todo_id=' + par.dataset.parentid + '&search_term='+ par.dataset.search);
-    });
+    if ($(this).data('category') === "delete") {
+      $.post(('/todo/delete'), 'todo_id=' + par.dataset.parentid).done(getUserElements())
+        .done(function (){getUserElements()});
 
+    } else {
+      console.log($(this).data('category'));
+      $.post(('/todo/edit'),
+        'category=' + $(this).data('category') + '&todo_id=' + par.dataset.parentid + '&search_term=' + par.dataset.search)
+        .done(function () {getUserElements()});
+    }
+  });
 
 
   $('#todoButton').on('click', function () {
@@ -111,7 +118,7 @@ $(document).ready(function () {
   });
 
 
-  var toggleSpinnerButtons = function (){
+  var toggleSpinnerButtons = function () {
     $('#categoryButtons').toggle();
     $('#loadingSpinner').toggle();
   };
