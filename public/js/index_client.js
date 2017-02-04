@@ -1,22 +1,14 @@
 $(document).ready(function () {
 
-
-
-$('#login').on('click', function() {
-  for (var it in $.cookie()) $.removeCookie(it);
-});
-
   var suggestedCategory = "";
-
-
 
   //autocomplete
   $.get(("/todo/temp"), function (data) {
-    //console.log(data);
+    ////console.log(data);
     var availableTags = data.map(function (item){
       return item.search_term;
     });
-    //console.log(availableTags);
+    ////console.log(availableTags);
     $( "#todoText" ).autocomplete({
       source: availableTags
     });
@@ -41,24 +33,25 @@ $('#login').on('click', function() {
 
 
   var createElement = function (element) {
+    //console.log(element);
     var newArticle = $('<article class="todo"></article>');
     newArticle[0].innerHTML = `
-    <article class="todoItem">
+    <article id=${element.todo_id} data-search=${element.search_term} class="todoItem">
         <span>${element.search_term}</span> <span>${element.category}</span>        
     </article>`;
     return newArticle[0];
   };
 
-var createButtons = function(id,category){
-  var newButtonDiv = $('<div class="itemButtons"></div>');
-  newButtonDiv[0].innerHTML =
-  `<button class="itemButton" data-category="book">Book</button>
+  var createButtons = function(id,search){
+    var newButtonDiv = $('<div class="itemButtons" data-search='+ search + '  data-parentId='+ id + '></div>');
+    newButtonDiv[0].innerHTML =
+      `<button class="itemButton" data-category="book">Book</button>
     <button class="itemButton" data-category="movie">Movie</button>
     <button class="itemButton" data-category="restuarant">Restuarant</button>
     <button class="itemButton" data-category="product">Product</button>    
     <button class="itemButton" data-category="delete">X</button>`
-  return newButtonDiv;
-};
+    return newButtonDiv;
+  };
 
 
   var renderElements = function (elements) {
@@ -72,11 +65,12 @@ var createButtons = function(id,category){
   //delegate to creates item buttons
   $('#todoContainer').on('click', '.todoItem' ,function(ev){
     ev.stopPropagation();
-    //console.log($(this));
+    //console.log($(this), "ok");
     var children = $(this).children('.itemButtons');
-    console.log(children[0]);
+    //console.log(children[0]);
+    //console.log (this.id)
     if (children[0] === undefined) {
-      $(this).append(createButtons(1, 'stud'));
+      $(this).append(createButtons(this.id, this.dataset.search));
     } else {
       children.remove();
     }
@@ -85,11 +79,11 @@ var createButtons = function(id,category){
 
   $('#todoContainer').on('click', '.itemButton' ,function(ev) {
     ev.stopPropagation();
-    //console.log($(this));
-
-    //console.log($(this).data('category'));
-
-  });
+    var par = $(this).parent()[0];
+    //console.log('category=' + $(this).data('category') + '&todo_id=' + par.dataset.parentid + '&search_value='+ par.dataset.search);
+    $.post(('/todo/edit'),
+      'category=' + $(this).data('category') + '&todo_id=' + par.dataset.parentid + '&search_term='+ par.dataset.search);
+    });
 
 
 
@@ -102,7 +96,7 @@ var createButtons = function(id,category){
 
 
   $('#categoryButtons').on('click', 'button', function () {
-    console.log(suggestedCategory);
+    //console.log(suggestedCategory);
     $('#todoText').attr('readonly', false);
     var category = this.id.replace('CategoryButton', "").replace('#', "");
     if (category === 'default') {
@@ -125,18 +119,18 @@ var createButtons = function(id,category){
 
   var getCategory = function (item) {
     for (dbItem in item) {
-      //console.log(dbItem);
+      ////console.log(dbItem);
       if (item[dbItem].search_term === $('#todoText').val()) {
         toggleSpinnerButtons();
         suggestedCategory = item[dbItem].category;
         return
       }
     }
-        var searchString = `https://www.googleapis.com/customsearch/v1?q=${$('#todoText').val()}&cx=009727429418526168478%3Agmz1zju4st8&num=10&key=AIzaSyCaOxUoXD5hn9qge6ZAV-uzI2bWLry5Amc`;
+    var searchString = `https://www.googleapis.com/customsearch/v1?q=${$('#todoText').val()}&cx=009727429418526168478%3Agmz1zju4st8&num=10&key=AIzaSyCaOxUoXD5hn9qge6ZAV-uzI2bWLry5Amc`;
     $.get((searchString), function (data) {
       let category = "";
       for (dataObj in data.items) {
-        //console.log(data.items[dataObj].snippet);
+        ////console.log(data.items[dataObj].snippet);
         category = snippetScanner(data.items[dataObj].snippet);
         if (category !== "") {
           break;
@@ -145,9 +139,9 @@ var createButtons = function(id,category){
       if (category === "") {
         category = "product"
       }
-      //console.log(category, "google")
+      ////console.log(category, "google")
       toggleSpinnerButtons();
-     suggestedCategory = category;
+      suggestedCategory = category;
     });
 
     var snippetScanner = function (snippet) {

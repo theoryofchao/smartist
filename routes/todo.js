@@ -68,23 +68,26 @@ router.get('/id/:todo_id', (request, response, next) => {
 
 /* GET users todos. */
 router.get('/', (request, response, next) => {
-  if(!request.session) {
-    response.status(403).json({ 'message' : `Unauthorized` });
+  console.log(request.session.user_id, 'user_id');
+  if (!request.session.user_id) {
+    response.status(403).json({'message': `Unauthorized`});
   }
 
-  let search_term = request.body.search_term ? request.body.search_term : '';
+  //console.log(request.session)
 
   knex.select()
-      .from(`searches`)
-      .timeout(1000)
-      .then( (result) => {
-        console.log(result);
-        return response.json(result);
-      })
-      .catch( (error) => {
-        console.error(error);
-        return response.end(`Cannot get list items`);
-      });
+    .from(`users`)
+    .innerJoin('todo', 'users.user_id', "todo.user_id")
+    .innerJoin('searches', 'todo.search_id', "searches.search_id")
+    .timeout(1000)
+    .then((result) => {
+      //console.log(result);
+      return response.json(result);
+    })
+    .catch((error) => {
+      console.error(error);
+      return response.end(`Cannot get list items`);
+    });
 });
 
 /* PUT delete todo (Soft delete) */
@@ -111,11 +114,13 @@ router.post('/edit', (request, response, next) => {
   let date = new Date(Date.now());
 
   //Find if the search_id already exists
-  knexExactSearch(`*`, `searches`, { search_term: search_term }, 1)
+//  knexExactSearch(`*`, `searches`, { search_term: search_term }, 1)
+  knex.select('*').from('searches').where({search_term :search_term, category: category }).limit(1)
     .then( (searchResult) => {
       //If does not exist, create it
       if(searchResult.length == 0) {
-        console.log('Created');
+
+        console.log('Create');
         return knexInsert(`searches`, { search_term: search_term, category: category , url : '', created_at : date } , `*`);
       }
       //Return existing search
@@ -126,7 +131,7 @@ router.post('/edit', (request, response, next) => {
     })
     .then( (newReference) => {
       //update the search_id for the todo to the new one
-      //console.log(newReference[0].search_id);
+      console.log(newReference[0].search_id);
       return knexExactUpdate(`todo`, { todo_id: todo_id }, { search_id : newReference[0].search_id, updated_at : date }, `*`);
     })
     .then( (changed) => {
