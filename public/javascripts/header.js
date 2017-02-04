@@ -12,3 +12,13 @@ if ($(this).scrollTop() > 1){
     $('.topBar').removeClass("sticky");
   }
 });
+
+$(document).ready( () => {
+  $('#userModalBtn').on('click', () => {
+    $('#userModal').toggle();
+  });
+
+  $('#userModal span').on('click', () => {
+    $('#userModal').hide();
+  });
+});

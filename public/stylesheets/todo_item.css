@@ -1,0 +1,24 @@
+.flex-item {
+  overflow: auto;
+  padding: 0;
+  z-index: -10; }
+  .flex-item .todo_item {
+    margin: 5px;
+    border: 1px solid black;
+    border-radius: 5px;
+    height: 200px; }
+  .flex-item .search {
+    padding: 1.5% 2% 1.5% 2%;
+    font-size: 1.5em;
+    border-bottom: 1px solid #335C7D;
+    overflow: auto; }
+  .flex-item .category {
+    padding: 1% 2% 1% 2%;
+    font-size: 1em;
+    border-bottom: 1px solid #335C7D;
+    overflow: auto; }
+  .flex-item .todo_content {
+    padding: 1% 2% 1% 2%;
+    height: 140px;
+    word-wrap: break-word;
+    overflow: auto; }
