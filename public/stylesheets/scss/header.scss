@@ -1,0 +1,53 @@
+header {
+  padding-left: 20px;
+  position: fixed;
+  width: 100%;
+  margin: auto;
+  text-align: left;
+  font-size: 60px;
+  line-height: 80px;
+
+  color: #fff;
+  transition: all 0.4s ease;
+
+  .logo {
+    float: left;
+  }
+
+  #userModalBtn {
+    margin-right: 0.5em;
+    font-size: 0.5em;
+    float: right;
+    border: #335C7D;
+    background: #335C7D;
+  }
+
+  .dropDown {
+    float: right;
+  }
+
+  .sayHello {
+    float: right;
+    font-size: 20px;
+  }
+
+  a {
+    position: static;
+    padding-right: 20px;
+    font-size: 25px;
+    float: right;
+    height: 40px;
+    color: white;
+  }
+
+}
+
+header.sticky {
+  font-size: 24px;
+  line-height: 48px;
+  height: 48px;
+
+  text-align: left;
+  transition: all 0.4s ease;
+}
+
