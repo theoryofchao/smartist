@@ -16,3 +16,7 @@ a {
   height: 50px;
   display:none;
 }
+
+.hidden{
+  display : none;
+}

@@ -2,6 +2,33 @@ $(document).ready(function () {
 
   var suggestedCategory = "";
 
+
+  var loginToggle = function () {
+    console.log(document.cookie === "");
+    if (document.cookie === "") {
+      $('.loginBlock').toggleClass('hidden');
+    } else {
+      $('.logoutBlock').toggleClass('hidden');
+    }
+  };
+
+
+  var deleteAllCookies = function () {
+    var cookies = document.cookie.split(";");
+    for (var i = 0; i < cookies.length; i++) {
+      var cookie = cookies[i];
+      var eqPos = cookie.indexOf("=");
+      var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+      document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    }
+  }
+
+  //logout
+  $("#logoutButton").on('click', function () {
+    deleteAllCookies();
+    location.reload();
+  });
+
   //autocomplete
   $.get(("/todo/temp"), function (data) {
     ////console.log(data);
@@ -83,13 +110,17 @@ $(document).ready(function () {
     var par = $(this).parent()[0];
     if ($(this).data('category') === "delete") {
       $.post(('/todo/delete'), 'todo_id=' + par.dataset.parentid).done(getUserElements())
-        .done(function (){getUserElements()});
+        .done(function () {
+          getUserElements()
+        });
 
     } else {
       console.log($(this).data('category'));
       $.post(('/todo/edit'),
         'category=' + $(this).data('category') + '&todo_id=' + par.dataset.parentid + '&search_term=' + par.dataset.search)
-        .done(function () {getUserElements()});
+        .done(function () {
+          getUserElements()
+        });
     }
   });
 
@@ -175,6 +206,6 @@ $(document).ready(function () {
   };
 
   //initial page load
-  //getElements(true);
+  loginToggle();
   getUserElements();
 });
