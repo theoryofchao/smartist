@@ -93,10 +93,7 @@ $(document).ready(function () {
   //delegate to creates item buttons
   $('#todoContainer').on('click', '.todoItem', function (ev) {
     ev.stopPropagation();
-    //console.log($(this), "ok");
     var children = $(this).children('.itemButtons');
-    //console.log(children[0]);
-    //console.log (this.id)
     if (children[0] === undefined) {
       $(this).append(createButtons(this.id, this.dataset.search));
     } else {
@@ -132,17 +129,19 @@ $(document).ready(function () {
     $('#loadingSpinner').toggle();
   });
 
-
+  //Select the category for a search
   $('#categoryButtons').on('click', 'button', function () {
-    //console.log(suggestedCategory);
     $('#todoText').attr('readonly', false);
     var category = this.id.replace('CategoryButton', "").replace('#', "");
-    if (category === 'default') {
+    if (category !== 'cancel') {
+      if (category === 'default') {
+        category = suggestedCategory;
+      }
+      $.post("/todo", "category=" + category + "&search_term=" + $('#todoText').val()).complete(
+        function () {
+          getUserElements();
+        })
     }
-    $.post("/todo", "category=" + category + "&search_term=" + $('#todoText').val()).complete(
-      function () {
-        getUserElements();
-      })
     $('#categoryButtons').toggle();
     $('#todoButton').toggle();
     //todoContainer.append(createElement(elements[element]));

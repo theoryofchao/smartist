@@ -37,7 +37,8 @@ router.post('/login', (request, response, next) => {
           request.session.user_id = result[0].user_id;
           console.log(request.session.email);
           request.session.email = email;
-          response.status(200).json({'message' : `Logged In`});
+          response.redirect(302, 'http://localhost:3000/')
+          //response.status(200).json({'message' : `Logged In`});
           return;
         });
       })

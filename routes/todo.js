@@ -79,6 +79,7 @@ router.get('/', (request, response, next) => {
     .from(`users`)
     .innerJoin('todo', 'users.user_id', "todo.user_id")
     .innerJoin('searches', 'todo.search_id', "searches.search_id")
+    .orderBy('todo.created_at', 'desc')
     .timeout(1000)
     .then((result) => {
       //console.log(result);
