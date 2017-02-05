@@ -1,0 +1,40 @@
+#todo {
+  margin-top: 75px;
+  padding-left: 20px;
+  padding-right: 20px;
+  position: fixed;
+  width: 100%;
+  text-align: left;
+  font-size: 24px;
+  line-height: 50px;
+  background: #efc47D;
+  color: #fff;
+  transition: all 0.4s ease;
+
+  form  {
+    color: #335C7D;
+
+    .search_term {
+      font-size: 20px;
+      height: 30px;
+    }
+
+    input[type=submit] {
+      float: right;
+      border: 0px;
+      border-radius: 5px;
+      padding: 0;
+      font: 15px;
+      background: ‎pink;
+    }
+  }
+}
+
+#todo.sticky {
+  margin-top: 50px;
+  line-height: 50px;
+  height: 52px;
+  background: #efc47D;
+  text-align: left;
+  transition: all 0.4s ease;
+}

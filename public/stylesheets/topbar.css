@@ -1,0 +1,12 @@
+.topBar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 135px;
+  width: 100%;
+  background-color: #335C7D;
+  transition: all 0.4s ease; }
+
+.topBar.sticky {
+  height: 110px;
+  transition: all 0.4s ease; }
