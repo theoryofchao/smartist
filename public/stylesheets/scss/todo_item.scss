@@ -3,15 +3,19 @@
 
 
   .flex-item {
-    overflow: auto;
+    /*overflow: auto;*/
     padding: 0;
-    z-index: -10;
 
     .todo_item {
-      margin: 5px;
+      margin: 10px;
       border: 1px solid black;
       border-radius: 5px;
       height: 200px;
+      background-color: pink;
+
+      &:hover {
+        background-color: white;
+      }
     }
 
     .search {
@@ -34,6 +38,11 @@
       height: 140px;
       word-wrap: break-word;
       overflow: auto;
+    }
+
+    button {
+      background-color: pink;
+
     }
   }
 }

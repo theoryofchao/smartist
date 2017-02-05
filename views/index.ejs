@@ -6,7 +6,6 @@
   <body>
 
     <div class="topBar">
-      <%= user_id %>
       <% include ./partials/_header %>
 
       <% include ./partials/_todo %>
@@ -19,7 +18,16 @@
 
       <% include ./partials/_todo_modal %>
       
+      <% include ./partials/_edit_modal %>
+
+      <% if (typeof user_id == 'undefined')  {%>
+        <div id="app_vision">
+
+        </div>
+      <% } %>
+
       <div class="todo_items">
+
          
       </div>
     </main>
