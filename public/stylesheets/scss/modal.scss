@@ -22,6 +22,20 @@
     margin: auto; /* 15% from the top and centered */
     padding: 20px;
     box-shadow: none;
+
+    #modalMain {
+
+        height: 100%;
+        width: 80%;
+        border: 1px solid black;
+        button {
+            width: 100%;
+            height: 50%;
+            background-color: pink;
+        }
+
+    }
+    
 }
 
 @media screen and (max-width: 720px) {
