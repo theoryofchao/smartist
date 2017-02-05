@@ -1,17 +1,147 @@
+$(window).scroll(function() {
+  if ($(this).scrollTop() > 1){  
+      $('header').addClass("sticky");
+      $('main').addClass("sticky");
+      $('#todo').addClass("sticky");
+      $('.topBar').addClass("sticky");
+    }
+    else{
+      $('header').removeClass("sticky");
+      $('main').removeClass("sticky");
+      $('#todo').removeClass("sticky");
+      $('.topBar').removeClass("sticky");
+    }
+  });
+
+
+var emptyMain = function () {
+  $('main').empty();
+}
+
+var createRegistrationForm = function() {
+  var registrationForm = '<form id="registrationForm"><input type="text" name="email" placeholder="Email"><input type="password" name="password" placeholder="Password"?><input type="submit" value="Submit"></form>';
+  $('#modalMain').append(registrationForm);
+  //bind event
+  $('#registrationForm').submit(function(event) {
+    event.preventDefault();
+    var email = $('#registrationForm input[name="email"]').val();
+    var password = $('#registrationForm input[name="password"]').val();
+
+    $.post('users/registration', {email: email, password: password}, function(result) {
+      console.log(result)
+      $('#modalMain').empty();
+      createLogoutButton();
+      $('#myModal').hide();
+
+    });
+  });
+};
+
+var createLoginForm = function() {
+  var registrationForm = '<form id="loginForm"><input type="text" name="email" placeholder="Email"><input type="password" name="password" placeholder="Password"?><input type="submit" value="Submit"></form>';
+  $('#modalMain').append(registrationForm);
+  //bind event
+  $('#loginForm').submit(function(event) {
+    event.preventDefault();
+    var email = $('#loginForm input[name="email"]').val();
+    var password = $('#loginForm input[name="password"]').val();
+
+    $.post('users/login', {email: email, password: password}, function(result) {
+      console.log(result)
+      $('#modalMain').empty();
+      createLogoutButton();
+      $('#myModal').hide();
+      //TODO: load up todos
+    });
+  });
+};
+
+var createRegistrationLoginButton = function () {
+  var registrationLogin = '<button class="registerModalBtn">Register</button><button class="loginModalBtn">Login</button>';
+  $('#modalMain').empty().append(registrationLogin);
+};
+
+var createLogoutButton = function () {
+  var logout = '<button class="logoutModalBtn">Logout</button>';
+  $('#modalMain').empty().append(logout);
+};
+
+var createSingleTodo = function(json) {
+  var todo = `<div class="flex-item col-xs-4 col-md-3">
+            <div class="todo_item">
+              <div class="search"></div>
+              <div class="category">Movie</div>
+              <div class="todo_content"></div>
+            </div>
+          </div>`;
+  $('.todo_items').append(todo);
+};
+
 $(document).ready(function () {
 
+  createSingleTodo();
+  createSingleTodo();
+  createSingleTodo();
+  createSingleTodo();
+  createSingleTodo();
+
+  $('#userModalBtn').on('click', function() {
+    $('#myModal').show();
+  });
+
+  $('#myModal span').on('click', function() {
+    $('#myModal').hide();
+  });
+
+  $('#todoModal span').on('click', function() {
+    $('#todoModal').hide();
+  });
+
+
+  $('#myModal .registerModalBtn').on('click', function() {
+    $('#modalMain').empty();
+    createRegistrationForm();
+  });
+
+  $('#myModal .loginModalBtn').on('click', function() {
+    $('#modalMain').empty();
+    createLoginForm();
+  });
+
+
+
+  //logout
+  $(".logoutModalBtn").on('click', function () {
+    deleteAllCookies();
+    location.reload();
+  });
+
+  $('#todo form').submit(function(event) {
+    event.preventDefault();
+    var search_term = $('#todo form input[name="search_term"]').val();
+    $('#todoModalMain').append(search_term);
+    $('#todoModal').show();
+    
+    //getElements(false, getCategory);
+
+
+    /*$.post('users/registration', {email: email, password: password}, function(result) {
+      console.log(result)
+      $('#modalMain').empty();
+      createLogoutButton();
+      $('#myModal').hide();
+
+    });*/
+  });
+
+  $('#todoButton').on('click', function () {
+    getElements(false, getCategory);
+    $(this).toggle();
+    $('#todoText').attr('readonly', true);
+    $('#loadingSpinner').toggle();
+  });
+
   var suggestedCategory = "";
-
-
-  var loginToggle = function () {
-    console.log(document.cookie === "");
-    if (document.cookie === "") {
-      $('.loginBlock').toggleClass('hidden');
-    } else {
-      $('.logoutBlock').toggleClass('hidden');
-    }
-  };
-
 
   var deleteAllCookies = function () {
     var cookies = document.cookie.split(";");
@@ -23,14 +153,10 @@ $(document).ready(function () {
     }
   }
 
-  //logout
-  $("#logoutButton").on('click', function () {
-    deleteAllCookies();
-    location.reload();
-  });
+
 
   //autocomplete
-  $.get(("/todo/temp"), function (data) {
+  /*$.get(("/todo/temp"), function (data) {
     ////console.log(data);
     var availableTags = data.map(function (item) {
       return item.search_term;
@@ -39,7 +165,7 @@ $(document).ready(function () {
     $("#todoText").autocomplete({
       source: availableTags
     });
-  });
+  });*/
 
   //functions for getting and rendering elements
   var getElements = function (render, callback) {
@@ -47,7 +173,7 @@ $(document).ready(function () {
       if (render) {
         renderElements(data);
       } else {
-        callback(data)
+        callback(data);
       }
     });
   };
@@ -55,7 +181,6 @@ $(document).ready(function () {
   var getUserElements = function () {
     $.get("/todo/", function (data) {
       renderElements(data);
-      console.log(2);
     });
   }
 
@@ -122,12 +247,7 @@ $(document).ready(function () {
   });
 
 
-  $('#todoButton').on('click', function () {
-    getElements(false, getCategory);
-    $(this).toggle();
-    $('#todoText').attr('readonly', true);
-    $('#loadingSpinner').toggle();
-  });
+
 
   //Select the category for a search
   $('#categoryButtons').on('click', 'button', function () {
@@ -205,6 +325,6 @@ $(document).ready(function () {
   };
 
   //initial page load
-  loginToggle();
-  getUserElements();
+  //loginToggle();
+  //getUserElements();
 });
