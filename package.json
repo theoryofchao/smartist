@@ -5,12 +5,15 @@
   "scripts": {
     "start": "nodemon ./bin/www",
     "build-css": "./node_modules/.bin/node-sass ./public/stylesheets/scss/ -o ./public/stylesheets/",
-    "watch-css": "./node_modules/.bin/node-sass -w ./public/stylesheets/scss/ -o ./public/stylesheets/"
+    "watch-css": "./node_modules/.bin/node-sass -w ./public/stylesheets/scss/ -o ./public/stylesheets/",
+    "seed": "node ./seeder/csvparse"
   },
   "dependencies": {
+    "aws-lib": "^0.3.0",
     "bcryptjs": "^2.4.0",
     "body-parser": "~1.15.2",
     "cookie-session": "^2.0.0-alpha.2",
+    "csv-parser": "^1.11.0",
     "debug": "~2.2.0",
     "dotenv": "^4.0.0",
     "ejs": "~2.5.2",
@@ -19,7 +22,8 @@
     "knex-logger": "^0.1.0",
     "morgan": "~1.7.0",
     "pg": "^6.1.2",
-    "serve-favicon": "~2.3.0"
+    "serve-favicon": "~2.3.0",
+    "youtube-search": "^1.0.8"
   },
   "devDependencies": {
     "node-sass": "^4.5.0",

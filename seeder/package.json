@@ -1,0 +1,17 @@
+{
+  "name": "seeder",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "csv-parser": "^1.11.0",
+    "knex": "^0.12.6",
+    "knex-logger": "^0.1.0",
+    "pg": "^6.1.2"
+  }
+}
