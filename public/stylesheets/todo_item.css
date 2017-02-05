@@ -1,14 +1,16 @@
 .todo_items {
   width: 100%; }
   .todo_items .flex-item {
-    overflow: auto;
-    padding: 0;
-    z-index: -10; }
+    /*overflow: auto;*/
+    padding: 0; }
     .todo_items .flex-item .todo_item {
-      margin: 5px;
+      margin: 10px;
       border: 1px solid black;
       border-radius: 5px;
-      height: 200px; }
+      height: 200px;
+      background-color: pink; }
+      .todo_items .flex-item .todo_item:hover {
+        background-color: white; }
     .todo_items .flex-item .search {
       padding: 1.5% 2% 1.5% 2%;
       font-size: 1.5em;
@@ -24,3 +26,5 @@
       height: 140px;
       word-wrap: break-word;
       overflow: auto; }
+    .todo_items .flex-item button {
+      background-color: pink; }

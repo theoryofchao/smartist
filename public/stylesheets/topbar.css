@@ -5,7 +5,8 @@
   height: 135px;
   width: 100%;
   background-color: #335C7D;
-  transition: all 0.4s ease; }
+  transition: all 0.4s ease;
+  z-index: 5; }
 
 .topBar.sticky {
   height: 110px;
