@@ -10,7 +10,7 @@ const settings = require('./settings');
 var index = require('./routes/index');
 var users = require('./routes/users');
 let todo  = require('./routes/todo');
-
+let api  = require('./routes/api');
 var app = express();
 
 // view engine setup
@@ -33,6 +33,7 @@ app.use(cookieSession({
 app.use('/', index);
 app.use('/users', users);
 app.use('/todo', todo);
+app.use('/api', api);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

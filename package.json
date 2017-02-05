@@ -9,6 +9,7 @@
     "seed": "node ./seeder/csvparse"
   },
   "dependencies": {
+    "amazon-product-api": "^0.4.3",
     "aws-lib": "^0.3.0",
     "bcryptjs": "^2.4.0",
     "body-parser": "~1.15.2",
@@ -22,6 +23,7 @@
     "knex-logger": "^0.1.0",
     "morgan": "~1.7.0",
     "pg": "^6.1.2",
+    "request": "^2.79.0",
     "serve-favicon": "~2.3.0",
     "youtube-search": "^1.0.8"
   },
