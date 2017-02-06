@@ -152,8 +152,10 @@ router.post('/', (request, response, next) => {
   let category = request.body.category;
   let date = new Date(Date.now());
 
-  knexExactSearch(`*`, `searches`, {search_term: search_term}, 1)
-    .then((searchResult) => {
+  //this needs to be a where that searches for search
+  //knexExactSearch(`*`, `searches`, {search_term: search_term}, 1)
+  knex.select('*').from('searches').where({search_term :search_term, category: category }).limit(1)
+  .then((searchResult) => {
       if (searchResult.length != 0) {
         return knex(`searches`).where({
           search_term: search_term,
@@ -164,7 +166,7 @@ router.post('/', (request, response, next) => {
       }
     })
     .then((searchInsertionResult) => {
-      //console.log(searchInsertionResult);
+      console.log(searchInsertionResult);
       return knexInsert(`todo`, {
         search_id: searchInsertionResult[0].search_id,
         status: 1,
