@@ -29,7 +29,10 @@ const youtubeTemplate = function (videoId){
 //http://webservices.amazon.com/scratchpad/index.html
 router.post('/amazon', (request, response) => {
   let searchIndex = "";
-  if (request.body.category === 'Product') {searchIndex = 'All'} else {searchIndex = request.body.category};
+  console.log(request.body.title);
+  if (request.body.category === "book") {request.body.category = "Books"};
+  if (request.body.category === "movie") {request.body.category = "Movies"};
+  if (request.body.category === 'product' || request.body.category === 'resturant') {searchIndex = 'All'} else {searchIndex = request.body.category};
 
   client.itemSearch({
     Keywords: request.body.title,
@@ -37,15 +40,12 @@ router.post('/amazon', (request, response) => {
     responseGroup: 'ItemIds'
 
   }).then(function (results) {
-    console.log(results);
+    console.log(results, "results");
 
     client.itemLookup({
       idType: 'ASIN',
       itemId: results[0].ASIN[0],
       responseGroup: 'OfferFull,EditorialReview,Images',
-      Domain: 'webservices.amazon.com/onca/HTML'
-
-
 
     }).then(function (results) {
       //console.log(amazonTemplate(results));
@@ -55,6 +55,7 @@ router.post('/amazon', (request, response) => {
          return response.status(200).send(retValue + res.body);
         });
       } else {
+
         return response.status(200).send(retValue);
       }
     }).catch(function (err) {
