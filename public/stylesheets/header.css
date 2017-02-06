@@ -16,11 +16,6 @@ header {
     float: right;
     border: #335C7D;
     background: #335C7D; }
-  header .dropDown {
-    float: right; }
-  header .sayHello {
-    float: right;
-    font-size: 20px; }
   header a {
     position: static;
     padding-right: 20px;
