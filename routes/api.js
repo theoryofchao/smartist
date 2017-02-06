@@ -12,10 +12,14 @@ const client = amazon.createClient({
 });
 
 const amazonTemplate = function (results){
+  let offer = results[0].Offers[0].MoreOffersUrl[0];
+  let price = results[0].OfferSummary[0].LowestNewPrice[0].FormattedPrice;
   let review = '';
   if (results[0].EditorialReviews) {review = results[0].EditorialReviews[0].EditorialReview[0].Content};
-  return `<img src=${results[0].MediumImage[0].URL}></img>
-          <p>${review}</p>`;
+  return `<img src=${results[0].MediumImage[0].URL}></img>            
+           <button onclick="location.href = '${offer}';">Buy on Amazon ${price}         
+            </button>
+          <p>${review}</p>`
 };
 
 const youtubeTemplate = function (videoId){
