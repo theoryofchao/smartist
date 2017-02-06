@@ -345,7 +345,7 @@ $(document).ready(function () {
           break;
         }
       }
-      if (category === "") {
+      if (category == "") {
         category = "product";
       }
       suggestedCategory = category;
