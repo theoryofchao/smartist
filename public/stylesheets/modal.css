@@ -33,12 +33,34 @@
   box-shadow: none; }
   .modal-content #modalMain {
     height: 100%;
-    width: 80%;
-    border: 1px solid black; }
+    width: 80%; }
     .modal-content #modalMain button {
-      width: 100%;
-      height: 50%;
-      background-color: pink; }
+      width: 90%;
+      height: 40%;
+      margin: 5%;
+      background-color: #efc47D;
+      font-size: 2em;
+      border: #335C7D;
+      border-radius: 5px;
+      border-style: solid; }
+      @media screen and (max-width: 720px) {
+        .modal-content #modalMain button {
+          width: 90%;
+          height: 40%;
+          margin: 10%; } }
+    .modal-content #modalMain #loginForm, .modal-content #modalMain #registrationForm {
+      height: 100%;
+      width: 80%; }
+      .modal-content #modalMain #loginForm input, .modal-content #modalMain #registrationForm input {
+        font-size: 2em;
+        margin: 5%;
+        height: 20%;
+        width: 100%; }
+        @media screen and (max-width: 720px) {
+          .modal-content #modalMain #loginForm input, .modal-content #modalMain #registrationForm input {
+            width: 90%;
+            height: 25%;
+            margin: 10%; } }
 
 @media screen and (max-width: 720px) {
   .modal-content {
@@ -48,7 +70,7 @@
 
 /* The Close Button */
 .close {
-  color: #aaa;
+  color: white;
   float: right;
   font-size: 28px;
   font-weight: bold; }
