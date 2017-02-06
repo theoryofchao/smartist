@@ -2,28 +2,29 @@
   width: 100%; }
   .todo_items .flex-item {
     /*overflow: auto;*/
-    padding: 0; }
+    padding: 0;
+    color: white; }
     .todo_items .flex-item .todo_item {
       margin: 10px;
-      border: 1px solid black;
       border-radius: 5px;
-      height: 200px;
-      background-color: pink; }
+      height: 250px;
+      background-color: #335C7D;
+      border: 1px solid black; }
       .todo_items .flex-item .todo_item:hover {
-        background-color: white; }
+        background-color: #efc47D; }
     .todo_items .flex-item .search {
       padding: 1.5% 2% 1.5% 2%;
       font-size: 1.5em;
-      border-bottom: 1px solid #335C7D;
+      border-bottom: 1px solid black;
       overflow: auto; }
     .todo_items .flex-item .category {
       padding: 1% 2% 1% 2%;
       font-size: 1em;
-      border-bottom: 1px solid #335C7D;
+      border-bottom: 1px solid black;
       overflow: auto; }
     .todo_items .flex-item .todo_content {
       padding: 1% 2% 1% 2%;
-      height: 140px;
+      height: 180px;
       word-wrap: break-word;
       overflow: auto; }
     .todo_items .flex-item button {

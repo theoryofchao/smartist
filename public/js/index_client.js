@@ -71,7 +71,7 @@ var renderElements = function (elements) {
   todoContainer.empty();
   //console.log(elements);
   elements.forEach((element) => {
-    var todo = `<div id="todo${element.todo_id}" class="flex-item col-xs-4 col-md-3">
+    var todo = `<div id="todo${element.todo_id}" class="flex-item col-xs-4 col-md-4">
           <div  data-search=${element.search_term} class="todo_item">
             <div class="search">${element.search_term}</div>
             <div class="category">${element.category}</div>
